@@ -1,0 +1,42 @@
+-- CRIAÇÃO EM ORDEM CRESCENTE
+
+-- 1)
+CREATE TABLE states (
+id SERIAL PRIMARY KEY,
+name VARCHAR(50) NOT NULL);
+
+-- 2)
+CREATE TABLE cities (
+id SERIAL PRIMARY KEY,
+name VARCHAR(50) NOT NULL,"stateId" INTEGER NOT NULL REFERENCES states(id));
+
+-- 3)
+CREATE TABLE customers (
+id SERIAL PRIMARY KEY,
+fullname VARCHAR(50) NOT NULL,cpf VARCHAR(11) NOT NULL,email TEXT NOT NULL UNIQUE,password TEXT NOT NULL);
+
+-- 4)
+CREATE TABLE "customersAddresses" (
+id SERIAL PRIMARY KEY,
+"customerId" INTEGER NOT NULL REFERENCES customers(id),street TEXT NOT NULL,number INTEGER NOT NULL UNIQUE,complement TE
+XT NOT NULL,"postalCode" INTEGER NOT NULL UNIQUE,"cityId" INTEGER NOT NULL REFERENCES cities(id));
+
+-- 5)
+CREATE TABLE "customerPhones" (
+id SERIAL PRIMARY KEY,
+"customerId" INTEGER NOT NULL REFERENCES customers(id),number INTEGER NOT NULL UNIQUE,type TEXT NOT NULL);
+
+-- 6)
+CREATE TABLE "backAccount" (
+id SERIAL PRIMARY KEY,
+"customerId" INTEGER NOT NULL REFERENCES customers(id),"accountNumber" INTEGER NOT NULL UNIQUE,agency INTEGER NOT NULL UNIQUE,"openDate" TIMESTAMP NOT NULL,"closeDate" TIMESTAMP NOT NULL);
+
+-- 7)
+CREATE TABLE transactions (
+id SERIAL PRIMARY KEY,
+"backAccountId" INTEGER NOT NULL REFERENCES "backAccount"(id),amount INTEGER NOT NULL,type TEXT NOT NULL UNIQUE,time TIMESTAMP NOT NULL,description TEXT,cancelled BOOLEAN DEFAULT false);
+
+-- 8)
+CREATE TABLE "creditCards" (
+id SERIAL PRIMARY KEY,
+"backAccountId" INTEGER NOT NULL REFERENCES "backAccount"(id),name VARCHAR(50) NOT NULL,number INTEGER NOT NULL UNIQUE,"securityCode" INTEGER NOT NULL UNIQUE,"expirationMonth" INTEGER NOT NULL,"expirationYear" INTEGER NOT NULL,password TEXT NOT NULL,limiti INTEGER NOT NULL);
