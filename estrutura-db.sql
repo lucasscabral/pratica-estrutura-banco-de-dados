@@ -1,5 +1,8 @@
 -- CRIAÇÃO EM ORDEM CRESCENTE
 
+-- CRIAÇÃO DO BANCO DE DADOS
+CREATE DATABASE "customerTransitions";
+
 -- 1)
 CREATE TABLE states (
 id SERIAL PRIMARY KEY,
